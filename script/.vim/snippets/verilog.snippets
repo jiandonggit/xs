@@ -1,0 +1,133 @@
+#if statement
+snippet if
+	if (${1}) begin
+		${0}
+	end
+# If/else statements
+snippet ife
+	if (${1}) begin
+		${2}
+	end
+	else begin
+		${3}
+	end
+# Else if statement
+snippet eif
+	else if (${1}) begin
+		${0}
+	end
+#Else statement
+snippet el
+	else begin
+		${0}
+	end
+# While statement
+snippet wh
+	while (${1:1}) begin
+		${0}
+	end
+# Repeat Loop
+snippet rep
+	repeat (${1}) begin
+		${0}
+	end
+# Case statement
+snippet case
+	case (${1:/* variable */})
+		${2:/* value */}: begin
+		${3}
+	end
+	default: begin
+		${4}
+	end
+	endcase
+# CaseZ statement
+snippet casez
+	casez (${1:/* variable */})
+		${2:/* value */}: begin
+		${3}
+	end
+	default: begin
+		${4}
+	end
+	endcase
+# Always block
+snippet al
+	always @(posedge ${1:clk} ${2:or} negedge ${3:rst_n}) begin
+		${4}
+	end
+# Module block
+snippet mod
+	module ${1:`vim_snippets#Filename('$1', 'name')`} (${2});
+		${0}
+	endmodule
+# For
+snippet for
+	for (int ${2:i} = 0; $2 < ${1:count}; $2 ${3:++}) begin
+		${4}
+	end
+# Forever
+snippet forev
+	forever begin
+		${0}
+	end
+# Function
+snippet fun
+	function ${1:void} ${2:name}(${3});
+		${0}
+	endfunction: $2
+# Task
+snippet task
+	task ${1:name}(${2});
+		${0}
+	endtask: $1
+snippet task automatic task
+	task automatic ${1:name}(${2});
+		${0}
+	endtask: $1
+# Initial 
+snippet ini
+	initial begin
+		${0}
+	end
+# typedef struct packed
+snippet tdsp
+	typedef struct packed {
+		int ${2:data};
+	} ${1:`vim_snippets#Filename('$1_t', 'name')`};
+# typedef eum
+snippet tde
+	typedef enum ${2:logic[15:0]}
+	{
+		${3:REG = 16'h0000}
+	} ${1:my_dest_t};
+# begin end
+snippet begin
+	begin
+		${1}
+	end
+snippet be
+	begin
+		${1}
+	end
+snippet cell
+	\`celldefine
+
+	${1}
+
+	\`endcelldefine
+snippet supl1
+	supply1 ${1:vdd} ;
+	assign ${2:VDD} = $1 ;
+snippet supl1c  supply1 control
+	reg ${1:vdd_ctrl} ;
+
+	bufif1 (supply0,supply1) (${2:VDD},$1,1'b1) ;
+
+	task ${4:vdd_ctrl}() ;
+		$1 = 1'b0 ;
+		${3:@(posedge clk)} ;
+		$1 = 1'b1 ;
+	endtask : $4
+
+

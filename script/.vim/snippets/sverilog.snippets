@@ -1,0 +1,439 @@
+extends verilog
+
+snippet fork fork/join
+	fork
+		${1}
+	join	
+snippet forkn fork/join_none
+	fork
+		${1}
+	join_none
+snippet forka fork/join_any
+	fork
+		${1}
+	join_any
+snippet d
+	\$display(${1}) ;
+snippet di
+	\$display("@0t ", \$realtime, "%m: ${1}",${2}) ;
+snippet dis
+	\$display("%m: ${1}@%0t", ${2:,} \$realtime) ;
+snippet disp
+	\$display(get_full_name, ": ${1}@%0t", ${2}, \$realtime) ;
+snippet dip
+	\$display("@%0t ", \$realtime, get_full_name, ": ${1}", ${2}) ;
+snippet prog
+	program automatic ${1:`Filename()`}(${2}) ;
+		${3}
+	endprogram
+snippet c
+	class ${1:`Filename()`} ${2:`UvmExtends()`};
+		${3:`UvmUtils()`}
+	endclass
+snippet ti
+	\`timescale ${1:1ns}/${2:1ps}
+snippet ts
+	\`timescale ${1:1ns}/${2:1ps}
+snippet inc
+	\`include "${1}"
+snippet tf
+	/* $timeformat(units_number,precision_number,suffix_string,minimum_field_width) */
+	$timeformat(${1:-9},${2:3},${3:"ns"},${4:0}) ;
+snippet ifn
+	\`ifndef __${1:`substitute(Filename(),'.*','\U&','')`}__
+	\`define __$1__
+		${2}
+	\`endif
+snippet f function T FuncName()
+	function ${1:void} ${2:FuncName}(${3}) ;
+		${4}
+	endfunction : $2
+snippet f function T class::FuncName()
+	function ${1:void} ${2:`Filename()`}::${3:FuncName}(${4}) ;
+		${5}
+	endfunction : $3
+snippet f function T build_phase(uvm_phase phase)
+	function ${1:void} ${2:build}_phase(uvm_phase phase) ;
+		super.$2_phase(phase) ;
+	endfunction : $2_phase
+snippet f function T class::build_phase(uvm_phase phase)
+	function ${1:void} ${2:`Filename()`}::${3:build}_phase(uvm_phase phase) ;
+		super.$3_phase(phase) ;
+	endfunction : $3_phase
+snippet fnew function new(string name="")
+	function new(string name = "${1:`Filename()`}") ;
+		super.new(name) ;
+	endfunction : new
+snippet fnew function new(string name="", uvm_component paent=null)
+	function new(string name = "${1:`Filename()`}", uvm_component parent=null) ;
+		super.new(name,parent) ;
+	endfunction : new
+snippet fnew extern function new(string name="")
+	extern function new(string name = "${1:`Filename()`}") ;
+		super.new(name) ;
+	endfunction : new
+snippet fnew extern function new(string name="", uvm_component paent=null)
+	extern function new(string name = "${1:`Filename()`}", uvm_component parent=null) ;
+		super.new(name,parent) ;
+	endfunction : new
+snippet vf
+	virtual function ${1:void} ${2:name}(${3}) ;
+		${4}
+	endfunction : $2
+snippet t task TaskName()
+	task ${1:TaskName}(${2}) ;
+		${3}
+	endtask : $1
+snippet vt 
+	virtual task ${1:TaskName}(${2}) ;
+		${3}
+	endtask : $1
+snippet t task main_phase(uvm_phase phase)
+	task ${1:main}_phase(uvm_phase phase) ;
+		super.$1_phase(phase) ;
+		${2}
+	endtask : $1_phase
+snippet t task class::main_phase(uvm_phase phase)
+	task ${1:`Filename()`}::${2:main}_phase(uvm_phase phase) ;
+		super.$2_phase(phase) ;
+		${3}
+	endtask : $2_phase
+snippet t task class::TaskName()
+	task ${1:`Filename()`}::${2:TaskName}(${3}) ;
+		${4}
+	endtask : $2
+snippet t automatic task class::TaskName()
+	task automatic ${1:`Filename()`}::${2:TaskName}(${3}) ;
+		${4}
+	endtask : $2
+snippet t extern task TaskName()
+	extern task ${1:TaskName}(${2}) ;
+snippet uc uvm_component_utils
+	\`uvm_component_utils(${1:`Filename()`})
+snippet uc uvm_component_utils_begin/end
+	\`uvm_component_utils_begin(${1:`Filename()`})
+		${2}
+	\`uvm_component_utils_end
+snippet uc uvm_component_utils_end
+	\`uvm_component_utils_end
+snippet uc uvm_component_param_utils
+	\`uvm_component_param_utils
+snippet uc uvm_component_param_utils_begin/end
+	\`uvm_component_param_utils_begin(${1:`Filename()`})
+		${2}
+	\`uvm_component_param_utils_end
+snippet uo uvm_object_utils
+	\`uvm_object_utils(${1:`Filename()`})
+snippet uo uvm_object_utils_begin/end
+	\`uvm_object_utils_begin(${1:`Filename()`})
+		${2}
+	\`uvm_object_utils_end
+snippet uo uvm_object_utils_end
+	\`uvm_object_utils_end
+snippet uf uvm_field_utils_begin/end
+	\`uvm_field_utils_begin(${1:`Filename()`})
+		${2}
+	\`uvm_field_utils_end
+snippet ufi uvm_field_int(ARG,FLAG)
+	\`uvm_field_int(${1},UVM_ALL_ON${2})
+snippet ufs uvm_field_string(ARG,FLAG)
+	\`uvm_field_string(${1},UVM_ALL_ON${2})
+snippet ufe uvm_field_enum(T,ARG,FLAG)
+	\`uvm_field_enum(${1:enum},${2:name},UVM_ALL_ON${3})
+snippet ufo uvm_field_object(ARG,FLAG)
+	\`uvm_field_object(${1},UVM_ALL_ON${2})
+snippet ufa uvm_field_array_int(ARG,FLAG)
+	\`uvm_field_array_int(${1},UVM_ALL_ON${2})
+snippet ufsa uvm_field_sarray_int(ARG,FLAG)
+	\`uvm_field_sarray_int(${1},UVM_ALL_ON${2})
+snippet ufaa uvm_field_aa_int_string(ARG,FLAG)
+	\`uvm_field_aa_int_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_int(ARG,FLAG)
+	\`uvm_field_int(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_real(ARG,FLAG)
+	\`uvm_field_real(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_enum(T,ARG,FLAG)
+	\`uvm_field_enum(${1:enum},${2},UVM_ALL_ON${3})
+snippet fi uvm_field_object(ARG,FLAG)
+	\`uvm_field_object(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_event(ARG,FLAG)
+	\`uvm_field_event(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_object(ARG,FLAG)
+	\`uvm_field_object(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_string(ARG,FLAG)
+	\`uvm_field_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_array_enum(ARG,FLAG)
+	\`uvm_field_array_enum(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_array_int(ARG,FLAG)
+	\`uvm_field_array_int(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_sarray_int(ARG,FLAG)
+	\`uvm_field_sarray_int(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_sarray_enum(ARG,FLAG)
+	\`uvm_field_sarray_enum(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_array_object(ARG,FLAG)
+	\`uvm_field_array_object(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_sarray_object(ARG,FLAG)
+	\`uvm_field_sarray_object(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_array_string(ARG,FLAG)
+	\`uvm_field_array_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_sarray_string(ARG,FLAG)
+	\`uvm_field_sarray_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_enum(ARG,FLAG)
+	\`uvm_queue_enum(${1},UVM_ALL_ON${3})
+snippet fi uvm_queue_int(ARG,FLAG)
+	\`uvm_queue_int(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_object(ARG,FLAG)
+	\`uvm_queue_object(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_string(ARG,FLAG)
+	\`uvm_queue_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_aa_int_string(ARG,FLAG)
+	\`uvm_field_aa_int_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_aa_string_string(ARG,FLAG)
+	\`uvm_field_aa_string_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_aa_object_string(ARG,FLAG)
+	\`uvm_field_aa_object_string(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_aa_int_int(ARG,FLAG)
+	\`uvm_field_aa_int_int(${1},UVM_ALL_ON${2})
+snippet fi uvm_field_aa_int_int_unsigned(ARG,FLAG)
+	\`uvm_field_aa_int_int_unsigned(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_integer(ARG,FLAG)
+	\`uvm_queue_aa_int_integer(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_integer_unsigned(ARG,FLAG)
+	\`uvm_queue_aa_int_integer_unsigned(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_byte(ARG,FLAG)
+	\`uvm_queue_aa_int_byte(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_byte_unsigned(ARG,FLAG)
+	\`uvm_queue_aa_int_byte_unsigned(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_shortint(ARG,FLAG)
+	\`uvm_queue_aa_int_shortint(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_shortint_unsigned(ARG,FLAG)
+	\`uvm_queue_aa_int_shortint_unsigned(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_longint(ARG,FLAG)
+	\`uvm_queue_aa_int_longint(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_longint_unsigned(ARG,FLAG)
+	\`uvm_queue_aa_int_longint_unsigned(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_int_key(ARG,FLAG)
+	\`uvm_queue_aa_int_key(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_string_int(ARG,FLAG)
+	\`uvm_queue_aa_string_int(${1},UVM_ALL_ON${2})
+snippet fi uvm_queue_aa_object_int(ARG,FLAG)
+	\`uvm_queue_aa_object_int(${1},UVM_ALL_ON${2})
+snippet cr
+	${1:`GetNameDecl("type")`}::type_id::create("${2:`GetNameDecl("name")`}",${3:this}) ;
+snippet cs
+	${1:`GetNameDecl("type")`}::type_id::create("${2:`GetNameDecl("name")`}",get_full_name) ;
+snippet uvmi uvm_info(id,msg,UVM_LOW)
+	\`uvm_info(${1:get_name},"${2}",${3:UVM_LOW})
+snippet uvmi uvm_info(id,$sprintf("msg",val),UVM_LOW)
+	\`uvm_info(${1:get_name},\$psprintf("${2}",${3}),${4:UVM_LOW})
+snippet uvmi uvm_error(id,msg)
+	\`uvm_error(${1:get_name},"${2}")
+snippet uvmi uvm_error(id,$sprintf("msg",val))
+	\`uvm_error(${1:get_name},\$psprintf("${2}",${3}))
+snippet uvmi uvm_fatal(id,msg)
+	\`uvm_fatal(${1:get_name},"${2}")
+snippet uvmi uvm_fatal(id,$sprintf("msg",val))
+	\`uvm_fatal(${1:get_name},\$psprintf("${2}",${3}))
+snippet uvmi uvm_warning(id,msg)
+	\`uvm_warning(${1:get_name},"${2}")
+snippet uvmi uvm_warning(id,$sprintf("msg",val))
+	\`uvm_warning(${1:get_name},\$psprintf("${2}",${3}))
+snippet ui 
+	\`uvm_info(${1:get_name},"${2}",${3:UVM_LOW})
+snippet uip
+	\`uvm_info(${1:get_name},\$psprintf("${2}",${3}),${4:UVM_LOW})
+snippet ue
+	\`uvm_error(${1:get_name},"${2}")
+snippet uep
+	\`uvm_error(${1:get_name},\$psprintf("${2}",${3}))
+snippet uw
+	\`uvm_warning(${1:get_name},"${2}")
+snippet uwp
+	\`uvm_warning(${1:get_name},\$psprintf("${2}",${3}))
+snippet uf
+	\`uvm_fatal(${1:get_name},"${2}")
+snippet ufp
+	\`uvm_fatal(${1:get_name},\$psprintf("${2}",${3}))
+snippet pack
+	package ${1:`Filename()`};
+		\`include "uvm_macros.svh"
+		immport uvm_pkg::* ;
+		${2}
+	endpackage
+snippet ps
+	$psprintf("${1}",${2})
+snippet uvm_dec
+	\`uvm_declare_p_sequencer(${1})
+snippet uvm_confs
+	uvm_config_db#(${1:uvm_object})::set(${2:this},"${3:*}","${5:$4}", ${4:m_cfg}) ;
+snippet uvm_confg
+	uvm_config_db#(${1:int})::get(this,"","${3:$2}",${2:m_cfg}) ;
+snippet uvm_confg
+	uvm_config_db#(${1:int})::get(null,get_full_name,"${3:$2}",${2:m_cfg}) ;
+snippet uvm_confg
+	uvm_config_db#(${1:int})::get(null,"*","${3:$2}",${2:m_cfg}) ;
+snippet uvm_confg
+	if( !uvm_config_db#(${1:uvm_object})::get(null,"","${2}",${2:m_cfg}) ) begin
+		\`uvm_fatal(get_name,"failed to get $2")
+	end
+snippet uvm_confg
+	if( !uvm_config_db#(${1:uvm_object})::get(null,"*","${2}",${2:m_cfg}) ) begin
+		\`uvm_fatal(get_name,"failed to get $2")
+	end
+snippet uvm_confw
+	uvm_config_db#(${1:int})::wait_modified(null,${2:get_full_name},"${3:name}") ;
+snippet skmd
+	(*syn_keep="true", mark_debug="true"*)
+snippet seq
+	class ${1:`Filename()`} extends ${2:uvm_sequence} ;
+		\`uvm_object_utils($1)
+
+		function new(string name="$1") ;
+			super.new(name) ;
+		endfunction : new
+
+		virtual task body() ;
+		endtask : body
+	endclass : $1
+snippet comp
+	class ${1:`Filename()`} extends ${2:uvm_env} ;
+		\`uvm_component_utils($1)
+
+		extern function new (string name = "$1",uvm_component parent = null) ;
+		extern virtual function void build_phase(uvm_phase phase) ;
+		extern virtual function void connect_phase(uvm_phase phase) ;
+		extern task main_phase(uvm_phase phase) ;
+	endclass : $1
+
+	function $1::new(string name = "$1", uvm_component parent = null) ;
+		super.new(name,parent) ;
+	endfunction : new
+
+	function void $1::build_phase(uvm_phase phase) ;
+		super.build_phase(phase) ;
+	endfunction : build_phase
+
+	function void $1::connect_phase(uvm_phase phase) ;
+		super.connect_phase(phase) ;
+	endfunction : connect_phase
+
+	task $1::main_phase(uvm_phase phase) ;
+		super.main_phase(phase) ;
+	endtask : main_phase
+snippet build
+	virtual function void build_phase(uvm_phase phase) ;
+		super.build_phase(phase) ;
+	endfunction : build_phase
+snippet connect
+	virtual function void connect_phase(uvm_phase phase) ;
+		super.connect_phase(phase) ;
+	endfunction : connect_phase
+snippet main
+	virtual task ${1:main}_phase(uvm_phase phase) ;
+		super.$1_phase(phase) ;
+		${2}
+	endtask : $1_phase
+snippet body
+	virtual task body();
+		${1}
+	endtask : body
+snippet new
+	`FuncNew(0)`
+snippet const
+	constraint ${1:name}_cst {
+		${2}
+	}
+snippet phase task
+	virtual task ${1:main}_phase(uvm_phase phase) ;
+		super.$1_phase(phase) ;
+		${2}
+	endtask : $1_phase
+snippet phase function
+	virtual function void ${1:build}_phase(uvm_phase phase) ;
+		super.$1_phase(phase) ;
+		${2}
+	endfunction : $1_phase
+snippet vp
+	\$value\$plusargs("${1:NAME}=%${3:d}",${2:name})
+snippet tp
+	\$test\$plusargs("${1:NAME}")
+snippet iftp
+	if ( \$test\$plusargs("${1:NAME}") ) begin
+		${2}
+	end
+snippet fore
+	foreach ( ${1:name}[${2:i}] ) begin
+		${3}
+	end
+
+#Foreach Loop
+snippet forea
+	foreach (${1}) begin
+		${0}
+	end
+# Do-while statement
+snippet dowh
+	do begin
+		${0}
+	end while (${1});
+# Combinational always block
+snippet alc
+	always_comb begin ${1:: statement_label}
+		${0}
+	end $1
+# Sequential logic
+snippet alff
+	always_ff @(posedge ${1:clk}) begin ${2:: statement_label}
+		${0}
+	end $2
+# Latched logic
+snippet all
+	always_latch begin ${1:: statement_label}
+		${0}
+	end $1
+# Class
+snippet cl
+	class ${1:class_name};
+		// data or class properties
+		${0}
+
+		// initialization
+		function new();
+		endfunction : new
+
+	endclass : $1
+# Typedef structure
+snippet types
+	typedef struct {
+	${0}
+	} ${1:name_t};
+	# Program block
+snippet prog
+	program ${1:program_name} ();
+		${0}
+	endprogram : $1
+# Interface block
+snippet interf
+	interface ${1:`Filename()`} ( ${2} );
+	// nets
+	${0}
+	// clocking
+
+	// modports
+
+	endinterface : $1
+# Clocking Block
+snippet clock
+	clocking ${1:clocking_name} @(${2:posedge} ${3:clk});
+	${0}
+	endclocking : $1
+	# Covergroup construct
+snippet cg
+	covergroup ${1:group_name} @(${2:posedge} ${3:clk});
+	${0}
+	endgroup : $1
+	# Package declaration
+snippet pkg
+	package ${1:package_name};
+	${0}
+	endpackage : $1
