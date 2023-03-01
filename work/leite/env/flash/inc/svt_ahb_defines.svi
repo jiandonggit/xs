@@ -1,0 +1,29 @@
+/*
+ * Copyright (C) xxx Electronic Technology Co., Ltd 
+ * 
+ * File   : svt_ahb_defines.svi
+ * Author : dongj
+ * Create : 2023-01-03
+ * 
+ * History:
+ * ----------------------------------------------------------------
+ * Revision: 1.0, dongj @2023/01/03 19:51:27
+ * Description: 
+ * 
+ */
+
+`ifndef __SVT_AHB_DEFINES_SVI__
+`define __SVT_AHB_DEFINES_SVI__
+
+`define SVT_AHB_DIABLE_IMPLICIT_BUS_CONNECTION
+`define SVT_AHB_MAX_NUM_MASTERS_2
+`define SVT_AHB_MAX_NUM_SLAVES_3
+`define SVT_AHB_MAX_ADDR_WIDTH 32
+`define SVT_AHB_MAX_DATA_WIDTH 32
+`define SVT_AHB_MAX_DATA_USER_WIDTH 32
+
+
+
+`endif
+
+// vim: et:ts=4:sw=4:ft=sverilog

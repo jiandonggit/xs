@@ -1,0 +1,6 @@
+#!/bin/sh
+
+wave_file=/work/xs_nas/dongj/Madrid/fsdb_power.xxx/xxx.vcd
+spef_file=/work/xs_nas/dongj/Madrid/xxx.gz
+
+make PREFIX=mipi.min. power_mode=averaged wave_file=$wave_file spef=$spef_file corner=bc

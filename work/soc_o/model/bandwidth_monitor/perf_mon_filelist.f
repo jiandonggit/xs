@@ -1,0 +1,9 @@
+proj_def.v
+xact_time_intf.sv
+axi_intf.sv
+xact_axi_intf.v
+xact_cell_trans.v1.sv
+xact_axi_mon.sv
+xact_axi_main.sv
+xact_axi_test.sv
+xact_axi_top.v

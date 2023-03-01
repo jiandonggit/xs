@@ -1,0 +1,15 @@
+#!/usr/bin/csh
+set id=`echo ${PWD}|sed 's/\(.*soc_0\).*/\1/'`
+
+set digitalDir=`echo $id|sed 's/\(.*digital\).*/\1/'`
+
+export SOC_ARCH_PATH  {$id}
+echo "SOC_ARCH_PATH:$SOC_ARCH_PATH"
+
+setenv DIGITAL $digitalDir
+echo "DIGITAL:$digitalDir"
+
+setenv WORK_PATH $SOC_ARCH_PATH
+setenv TCDIR $SOC_ARCH_PATH/tc_excel/tests
+
+setenv PATH {$id}/scripts:{$PATH}
